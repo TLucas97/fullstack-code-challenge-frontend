@@ -34,3 +34,8 @@ export const formatDate = (dateString: any) => {
   const year = date.getFullYear();
   return `${day}/${month}/${year}`;
 }
+
+export const openInNewTab = (url: string) => {
+  const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+  if (newWindow) newWindow.opener = null
+}

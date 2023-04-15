@@ -1,9 +1,4 @@
-interface BaseButtonProps {
-  children: React.ReactNode
-  focused?: boolean
-  disabled?: boolean
-  onClick: () => void
-}
+import type { BaseButtonProps } from "../interfaces"
 
 const BaseButton = ({
   children,

@@ -1,7 +1,7 @@
 import BaseButton from './BaseButton'
 import Toast from './Toast'
 import type { UserScreenProps } from '../interfaces'
-import { fetchUserRepos } from '../services'
+import { fetchUserRepos, openInNewTab } from '../services'
 import { AiOutlineStar } from 'react-icons/ai'
 import { BiCopy } from 'react-icons/bi'
 import { useEffect, useState } from 'react'
@@ -39,11 +39,6 @@ const ReposCard = ({ username }: UserScreenProps) => {
     } catch (err) {
       console.error('Error copying text: ', err)
     }
-  }
-
-  const openInNewTab = (url: any) => {
-    const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
-    if (newWindow) newWindow.opener = null
   }
 
   useEffect(() => {

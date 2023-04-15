@@ -1,10 +1,5 @@
 import { MdOutlineContentPasteSearch } from 'react-icons/md'
-
-interface BaseInputProps {
-  placeholder: string
-  value: string
-  onChange: (value: string) => void
-}
+import { BaseInputProps } from '../interfaces'
 
 const BaseInput = ({ placeholder, value, onChange }: BaseInputProps) => {
   return (
