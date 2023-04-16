@@ -7,17 +7,24 @@ To run this project locally, you need to have [yarn](https://yarnpkg.com/) insta
 ```bash
   yarn install
 ```
-Then: 
+
+This will install all the necessary dependencies required for this project. Once the installation is complete, run the following command to start the development server:
 
 ```bash
   yarn dev
 ```
 
-
-This will install all the necessary dependencies required for this project. Once the installation is complete, run the following command to start the development server:
-
-
 This will start a development server at [http://localhost:5173/](http://localhost:5173/), where you can view the app in your browser.
+
+## E2E Testing
+
+This project has cypress e2e tests, to check the tests, open your terminal and run:
+
+```bash
+  yarn cypress open
+```
+
+This will open the cypress test runner interface where you can run all the created e2e tests.
 
 ## Technologies Used
 
