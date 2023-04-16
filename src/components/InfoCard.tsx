@@ -252,7 +252,7 @@ const InfoCard = () => {
               )}
             </>
           )}
-          {!loadingMore && (
+          {!loadingMore || !loading && (
             <div className='flex items-center justify-center w-full mt-5'>
               <BaseButton onClick={() => renderMoreUsers(currentPage)}>
                 Load more data
