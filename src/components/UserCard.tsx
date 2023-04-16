@@ -1,4 +1,4 @@
-import questionMarkUser from '../../public/images/question-mark-user.jpg'
+import questionMarkUser from '../assets/images/question-mark-user.jpg'
 import type { UserCardProps } from '../interfaces'
 
 const UserCard = ({ title, image, id, onClick }: UserCardProps) => {

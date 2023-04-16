@@ -153,7 +153,7 @@ const InfoCard = () => {
   }, [])
 
   return (
-    <div className='w-full h-[880px] small:h-[750px] border-b-2'>
+    <div className='w-full h-full small:h-[750px] border-b-2'>
       <div className='w-full h-[130px] small:h-[60px] flex justify-between items-center small:flex-row flex-col py-4 small:px-2 border-b-2'>
         <div
           className={`flex items-center space-x-4 ${
@@ -204,7 +204,7 @@ const InfoCard = () => {
       </div>
       {!isDetailsOpen ? (
         <div
-          className='w-full h-[750px] small:h-[690px] overflow-scroll overflow-x-hidden flex items-center justify-evenly flex-wrap px-5 py-5'
+          className='w-full h-[485px] small:h-[690px] overflow-scroll overflow-x-hidden flex items-center justify-evenly flex-wrap px-5 py-5'
           ref={scrollRef}
           onScroll={(e) => setScroll(e.currentTarget.scrollTop)}
         >

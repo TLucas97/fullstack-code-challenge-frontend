@@ -8,7 +8,7 @@ const UserScreen = ({ username }: UserScreenProps) => {
   const [isOnProfile, setIsOnProfile] = useState<boolean>(true)
 
   return (
-    <div className='w-full h-[674px] overflow-scroll overflow-x-hidden'>
+    <div className='w-full h-[485px] small:h-[674px] overflow-scroll overflow-x-hidden'>
       <div className='w-full flex items-center justify-center space-x-4 mt-4'>
         <BaseButton onClick={() => setIsOnProfile(true)} focused={isOnProfile}>Profile</BaseButton>
         <BaseButton onClick={() => setIsOnProfile(false)} focused={!isOnProfile}>
