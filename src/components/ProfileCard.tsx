@@ -1,8 +1,9 @@
 import type { UserScreenProps } from '../interfaces'
-import { fetchUserDetails, formatDate } from '../services'
+import { fetchUserDetails, formatDate, openInNewTab } from '../services'
 import { FaUserFriends, FaRunning } from 'react-icons/fa'
 import { RiGitRepositoryLine } from 'react-icons/ri'
 import { useEffect, useState } from 'react'
+import BaseButton from './BaseButton'
 
 const ProfileCard = ({ username }: UserScreenProps) => {
   const [user, setUser] = useState<any>([])
@@ -67,6 +68,11 @@ const ProfileCard = ({ username }: UserScreenProps) => {
               <span>{user?.public_repos}</span>
               <span className='font-thin'>Repos</span>
             </div>
+          </div>
+          <div className='my-3'>
+            <BaseButton onClick={() => openInNewTab(user?.html_url)}>
+              Details
+            </BaseButton>
           </div>
           <div className='flex items-center justify-center mt-5'>
             <p>
