@@ -6,12 +6,14 @@ export interface BaseButtonProps {
   children: React.ReactNode
   focused?: boolean
   disabled?: boolean
+  testID?: string
   onClick: () => void
 }
 
 export interface BaseInputProps {
   placeholder: string
   value: string
+  testID?: string
   onChange: (value: string) => void
 }
 

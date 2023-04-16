@@ -47,7 +47,7 @@ const ReposCard = ({ username }: UserScreenProps) => {
 
   return (
     <>
-      <div className='w-full flex items-center justify-center flex-col space-y-4 mt-4'>
+      <div className='w-full flex items-center justify-center flex-col space-y-4 mt-4' data-testid='repos-card-wrapper'>
         {loading ? (
           <div className='w-full h-[500px] flex items-center justify-center'>
             Loading repos...

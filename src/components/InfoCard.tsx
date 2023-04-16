@@ -153,7 +153,7 @@ const InfoCard = () => {
   }, [])
 
   return (
-    <div className='w-full h-full small:h-[750px] border-b-2'>
+    <div className='w-full small:h-[750px] border-b-2'>
       <div className='w-full h-[130px] small:h-[60px] flex justify-between items-center small:flex-row flex-col py-4 small:px-2 border-b-2'>
         <div
           className={`flex items-center space-x-4 ${
@@ -164,10 +164,12 @@ const InfoCard = () => {
             placeholder='Search for a user'
             onChange={handleSearchValue}
             value={searchValue}
+            testID='user'
           />
           <BaseButton
             onClick={handleSearchResult}
             disabled={searchValue.length === 0}
+            testID='filter'
           >
             Filter
           </BaseButton>
@@ -178,15 +180,19 @@ const InfoCard = () => {
               isDetailsOpen ? 'opacity-30 pointer-events-none' : ''
             }`}
             title='Refresh user data'
+            data-testid='refresh-btn'
             onClick={refreshData}
           >
             <RiRefreshLine />
           </button>
           <button
             className={`text-3xl ${
-              goBackBtnDisabled || isDetailsOpen ? 'opacity-30 pointer-events-none' : ''
+              goBackBtnDisabled || isDetailsOpen
+                ? 'opacity-30 pointer-events-none'
+                : ''
             }`}
             title='Go back to top of the list'
+            data-testid='go-back-btn'
             onClick={scrollToTopSmoothly}
           >
             <BsArrowUpCircle />
@@ -196,6 +202,7 @@ const InfoCard = () => {
               closeBtnDisabled ? 'opacity-30 pointer-events-none' : ''
             }`}
             title='Close current user detail'
+            data-testid='close-btn'
             onClick={closeUserDetails}
           >
             <AiOutlineCloseCircle />
@@ -204,8 +211,9 @@ const InfoCard = () => {
       </div>
       {!isDetailsOpen ? (
         <div
-          className='w-full h-[485px] small:h-[690px] overflow-scroll overflow-x-hidden flex items-center justify-evenly flex-wrap px-5 py-5'
+          className='w-full h-[450px] small:h-[690px] overflow-scroll overflow-x-hidden flex items-center justify-evenly flex-wrap px-5 py-7'
           ref={scrollRef}
+          data-testid='user-list-box'
           onScroll={(e) => setScroll(e.currentTarget.scrollTop)}
         >
           {loading ? (
@@ -222,7 +230,11 @@ const InfoCard = () => {
               ) : (
                 <>
                   {userData?.map((user: any) => (
-                    <div className='mt-5' key={user?.id}>
+                    <div
+                      className='mt-5'
+                      key={user?.id}
+                      data-testid='user-card-wrapper'
+                    >
                       <UserCard
                         title={user?.login}
                         image={user?.avatar_url}

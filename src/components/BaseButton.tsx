@@ -5,6 +5,7 @@ const BaseButton = ({
   onClick,
   focused,
   disabled,
+  testID,
 }: BaseButtonProps) => {
   return (
     <button
@@ -12,6 +13,7 @@ const BaseButton = ({
         focused ? 'bg-white text-black' : ''
       } ${disabled ? 'opacity-40 pointer-events-none' : ''}`}
       onClick={onClick}
+      data-testid={`base-button-${testID}`}
     >
       {children}
     </button>

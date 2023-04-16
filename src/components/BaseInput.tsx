@@ -1,7 +1,7 @@
 import { MdOutlineContentPasteSearch } from 'react-icons/md'
 import { BaseInputProps } from '../interfaces'
 
-const BaseInput = ({ placeholder, value, onChange }: BaseInputProps) => {
+const BaseInput = ({ placeholder, value, testID ,onChange }: BaseInputProps) => {
   return (
     <div className=' w-full flex justify-between py-1 space-x-2 border-b-2'>
       <span className='text-2xl'>
@@ -9,7 +9,8 @@ const BaseInput = ({ placeholder, value, onChange }: BaseInputProps) => {
       </span>
       <input
         type='text'
-        className='bg-transparent focus:outline-none w-full '
+        className='bg-transparent focus:outline-none w-full'
+        data-testid={`search-input-${testID}`}
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}

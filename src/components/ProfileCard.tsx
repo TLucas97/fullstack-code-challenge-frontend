@@ -31,7 +31,10 @@ const ProfileCard = ({ username }: UserScreenProps) => {
   }, [])
 
   return (
-    <div className='w-full h-[500px] flex items-center justify-center'>
+    <div
+      className='w-full h-[500px] flex items-center justify-center'
+      data-testid='profile-card-wrapper'
+    >
       {loading ? (
         <div className='flex items-center justify-center'>Loading user...</div>
       ) : (
