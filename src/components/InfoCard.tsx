@@ -2,6 +2,8 @@ import BaseInput from './BaseInput'
 import BaseButton from './BaseButton'
 import UserCard from './UserCard'
 import UserScreen from './UserScreen'
+import BestRepos from './BestRepos'
+import { IoPodiumSharp } from 'react-icons/io5'
 import { BsArrowUpCircle } from 'react-icons/bs'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { RiRefreshLine } from 'react-icons/ri'
@@ -11,6 +13,7 @@ import { useState, useRef, useEffect } from 'react'
 const InfoCard = () => {
   const [goBackBtnDisabled, setGoBackBtnDisabled] = useState<boolean>(true)
   const [closeBtnDisabled, setCloseBtnDisabled] = useState<boolean>(true)
+  const [bestReposView, setBestReposView] = useState<boolean>(false)
   const [userData, setUserData] = useState<any>([])
   const [searchValue, setSearchValue] = useState<string>('')
   const [currentUserName, setCurrentUserName] = useState<string>('')
@@ -55,8 +58,14 @@ const InfoCard = () => {
     setCloseBtnDisabled(false)
   }
 
-  const closeUserDetails = () => {
+  const handleBestReposView = () => {
+    setBestReposView(true)
+    setCloseBtnDisabled(false)
+  }
+
+  const closeStates = () => {
     setIsDetailsOpen(false)
+    setBestReposView(false)
     setCloseBtnDisabled(true)
     setGoBackBtnDisabled(true)
     setCurrentUserName('')
@@ -96,7 +105,7 @@ const InfoCard = () => {
 
       const lastPage = users?.data[users?.data.length - 1]?.last_user_id
       users?.data.pop()
-      setUserData([...userData, ...users?.data])
+      setUserData([...userData, ...users.data])
       setCurrentPage(lastPage)
     } catch (error) {
       console.log(error)
@@ -157,7 +166,7 @@ const InfoCard = () => {
       <div className='w-full h-[130px] small:h-[60px] flex justify-between items-center small:flex-row flex-col py-4 small:px-2 border-b-2'>
         <div
           className={`flex items-center space-x-4 ${
-            isDetailsOpen ? 'opacity-30 pointer-events-none' : ''
+            isDetailsOpen || bestReposView ? 'opacity-30 pointer-events-none' : ''
           }`}
         >
           <BaseInput
@@ -179,6 +188,16 @@ const InfoCard = () => {
             className={`text-3xl ${
               isDetailsOpen ? 'opacity-30 pointer-events-none' : ''
             }`}
+            title='Top30 best repos in the world'
+            data-testid='refresh-btn'
+            onClick={handleBestReposView}
+          >
+            <IoPodiumSharp />
+          </button>
+          <button
+            className={`text-3xl ${
+              isDetailsOpen || bestReposView ? 'opacity-30 pointer-events-none' : ''
+            }`}
             title='Refresh user data'
             data-testid='refresh-btn'
             onClick={refreshData}
@@ -187,7 +206,7 @@ const InfoCard = () => {
           </button>
           <button
             className={`text-3xl ${
-              goBackBtnDisabled || isDetailsOpen
+              goBackBtnDisabled || isDetailsOpen || bestReposView
                 ? 'opacity-30 pointer-events-none'
                 : ''
             }`}
@@ -203,65 +222,74 @@ const InfoCard = () => {
             }`}
             title='Close current user detail'
             data-testid='close-btn'
-            onClick={closeUserDetails}
+            onClick={closeStates}
           >
             <AiOutlineCloseCircle />
           </button>
         </div>
       </div>
-      {!isDetailsOpen ? (
-        <div
-          className='w-full h-[450px] small:h-[690px] overflow-scroll overflow-x-hidden flex items-center justify-evenly flex-wrap px-5 py-7'
-          ref={scrollRef}
-          data-testid='user-list-box'
-          onScroll={(e) => setScroll(e.currentTarget.scrollTop)}
-        >
-          {loading ? (
-            <div className='w-full h-full flex items-center justify-center'>
-              Loading...
-            </div>
-          ) : (
-            <>
-              {hasFailed ? (
+      {bestReposView ? (
+        <div className='w-full h-[450px] small:h-[690px] overflow-scroll overflow-x-hidden flex items-center justify-evenly flex-wrap px-5 py-7'>
+          <BestRepos />
+        </div>
+      ) : (
+        <>
+          {!isDetailsOpen ? (
+            <div
+              className='w-full h-[450px] small:h-[690px] overflow-scroll overflow-x-hidden flex items-center justify-evenly flex-wrap px-5 py-7'
+              ref={scrollRef}
+              data-testid='user-list-box'
+              onScroll={(e) => setScroll(e.currentTarget.scrollTop)}
+            >
+              {loading ? (
                 <div className='w-full h-full flex items-center justify-center'>
-                  {hasFailedMessage ??
-                    'Something went wrong. Please try again later.'}
+                  Loading...
                 </div>
               ) : (
                 <>
-                  {userData?.map((user: any) => (
-                    <div
-                      className='mt-5'
-                      key={user?.id}
-                      data-testid='user-card-wrapper'
-                    >
-                      <UserCard
-                        title={user?.login}
-                        image={user?.avatar_url}
-                        id={user?.id}
-                        onClick={() => handleUserDetails(user.login)}
-                      />
+                  {hasFailed ? (
+                    <div className='w-full h-full flex items-center justify-center'>
+                      {hasFailedMessage ??
+                        'Something went wrong. Please try again later.'}
                     </div>
-                  ))}
-                  {loadingMore && (
-                    <div className='flex items-center justify-center w-full mt-5'>
-                      Loading more data...
-                    </div>
+                  ) : (
+                    <>
+                      {userData?.map((user: any) => (
+                        <div
+                          className='mt-5'
+                          key={user?.id}
+                          data-testid='user-card-wrapper'
+                        >
+                          <UserCard
+                            title={user?.login}
+                            image={user?.avatar_url}
+                            id={user?.id}
+                            onClick={() => handleUserDetails(user.login)}
+                          />
+                        </div>
+                      ))}
+                      {loadingMore && (
+                        <div className='flex items-center justify-center w-full mt-5'>
+                          Loading more data...
+                        </div>
+                      )}
+                    </>
                   )}
                 </>
               )}
-            </>
-          )}
-          {!loadingMore || !loading && (
-            <div className='flex items-center justify-center w-full mt-5'>
-              <BaseButton onClick={() => renderMoreUsers(currentPage)}>
-                Load more data
-              </BaseButton>
+              {!loadingMore ||
+                (!loading && (
+                  <div className='flex items-center justify-center w-full mt-5'>
+                    <BaseButton onClick={() => renderMoreUsers(currentPage)}>
+                      Load more data
+                    </BaseButton>
+                  </div>
+                ))}
             </div>
+          ) : (
+            <UserScreen username={currentUserName} />
           )}
-        </div>
-      ) : (
-        <UserScreen username={currentUserName} />
+        </>
       )}
     </div>
   )

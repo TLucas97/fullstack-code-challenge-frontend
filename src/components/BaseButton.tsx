@@ -11,7 +11,7 @@ const BaseButton = ({
     <button
       className={`p-1 border-2 hover:bg-white hover:text-black font-bold ${
         focused ? 'bg-white text-black' : ''
-      } ${disabled ? 'opacity-40 pointer-events-none' : ''}`}
+      } ${disabled && 'opacity-40 pointer-events-none'}`}
       onClick={onClick}
       data-testid={`base-button-${testID}`}
     >

@@ -27,15 +27,76 @@ export const fetchUserRepos = async (username: string) => {
   }
 }
 
-export const formatDate = (dateString: any) => {
-  const date = new Date(dateString);
-  const day = date.getDate().toString().padStart(2, '0');
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  const year = date.getFullYear();
-  return `${day}/${month}/${year}`;
+export const fetchAccessToken = async (code: string) => {
+  try {
+    const data = await api.post(`/users/access_token?code=${code}`)
+    console.log('🚀 ~ fetchAccessToken ~ data:', data)
+    return data
+  } catch (error) {
+    console.log(error)
+  }
 }
 
-export const openInNewTab = (url: string) => {
-  const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
-  if (newWindow) newWindow.opener = null
+export const fetchUserAuthDetails = async (access_token: string) => {
+  try {
+    const data = await api.get(
+      `/users/auth_details?access_token=${access_token}`
+    )
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const handleAccessToken = async () => {
+  const accessTokenFromLocalStorage = localStorage.getItem('access_token')
+  const code = new URLSearchParams(window.location.search).get('code')
+
+  if (accessTokenFromLocalStorage) {
+    const data = await fetchUserAuthDetails(accessTokenFromLocalStorage)
+    return data
+  }
+
+  if (code) {
+    const response: any = await fetchAccessToken(code)
+    const access_token = response?.data.split('=')
+    localStorage.setItem('access_token', access_token[1])
+
+    if (access_token[0] === 'error' && accessTokenFromLocalStorage) {
+      const data = await fetchUserAuthDetails(accessTokenFromLocalStorage)
+
+      return data
+    }
+
+    if (access_token[0] === 'error') {
+      localStorage.removeItem('access_token')
+      return false
+    }
+
+    const data = await fetchUserAuthDetails(access_token[1])
+    return data
+  }
+}
+
+export const createNewRepository = async (data: object) => {
+  const accessTokenFromLocalStorage = localStorage.getItem('access_token')
+
+  try {
+    const response = await api.post(
+      `/users/create_repo?access_token=${accessTokenFromLocalStorage}`,
+      data
+    )
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const fetchBestRepositories = async () => {
+  try {
+    const data = await api.get(`/top30repos`)
+    return data
+  } catch (error) {
+    console.log(error)
+  }
 }

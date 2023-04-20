@@ -1,5 +1,6 @@
 import type { UserScreenProps } from '../interfaces'
-import { fetchUserDetails, formatDate, openInNewTab } from '../services'
+import { fetchUserDetails } from '../services'
+import { formatDate, openInNewTab } from '../services/helpers'
 import { FaUserFriends, FaRunning } from 'react-icons/fa'
 import { RiGitRepositoryLine } from 'react-icons/ri'
 import { useEffect, useState } from 'react'
